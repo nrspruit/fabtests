@@ -101,6 +101,13 @@ simple_tests=(
 	"scalable_ep"
 	"cmatose"
 	"rdm_shared_av"
+	"multi_mr -e msg -V"
+	"multi_mr -e rdm -V"
+	"rdm_multi_domain -V"
+	"multi_ep -e msg"
+	"multi_ep -e rdm"
+	"multi_ep -e dgram"
+	"recv_cancel -e rdm -V"
 )
 
 short_tests=(
