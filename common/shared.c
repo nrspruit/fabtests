@@ -1837,7 +1837,13 @@ ssize_t ft_rx(struct fid_ep *ep, size_t size)
 static inline int ft_tag_is_valid(struct fid_cq * cq, struct fi_cq_err_entry *comp,
 				  uint64_t tag)
 {
-	if ((hints->caps & FI_TAGGED) && (cq == rxcq) && (comp->tag != tag)) {
+	if (opts.options & FT_OPT_BW) {
+		if ((hints->caps & FI_TAGGED) && (cq == rxcq) &&
+			((comp->tag >= tag + opts.window_size / 2) || (comp->tag + opts.window_size / 2 <= tag))) {
+			return 0;
+		}
+	}
+	else if ((hints->caps & FI_TAGGED) && (cq == rxcq) && (comp->tag != tag)) {
 		FT_ERR("Tag mismatch!. Expected: %"PRIu64", actual: %"PRIu64, tag, comp->tag);
 		return 0;
 	}
